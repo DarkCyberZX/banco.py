@@ -1,0 +1,154 @@
+from random import randint
+class Conta:
+    def atributos(self):
+        print("Bem vindo ao banco WordsCity\n"
+              "vamos criar sua conta neste momento.")
+        lista = []
+        lista2 = []
+        agencia = "3186"
+        conta = randint(100000,999999)
+        conta = str(conta)+"-9"
+        nome = input("Digite seu nome completo: \n").title()
+        senha = str(input("digite sua senha: \n"))
+        saldo = randint(0,5000)
+        lista.append(agencia)
+        lista.append(conta)
+        lista.append(nome)
+        lista.append(senha)
+        lista.append(saldo)
+        print(f"Parabens {nome} sua conta foi criada a agencia é {agencia} o numero da conta é {conta} porfavor anote e nao se esqueca.")
+        return lista
+
+    def operacoes(valor):
+        print("Aki voce pode realizar transações bancarias mas antes disso e necessário fazer o login:")
+        agencia = str(input("digite sua agencia.\n"))
+        conta = str(input("digite o numero da sua conta.\n"))
+        senha = str(input("digite sua senha \n"))
+        result = len(valor)
+        result = result
+        for z in range(result):
+            if agencia == valor[z][0] and conta == valor[z][1] and senha == valor[z][3]:
+                print(f"Login realizado {valor[z][2]}.\n"
+                      f"Seu saldo é de {float(valor[z][4]):.2f} \n"
+                      "Digite 1 para deposito\n"
+                      "Digite 2 para saque\n"
+                      "Digite 3 para transferencias\n"
+                      "Digite 4 para fazer logout\n"
+                      "Digite 5 para sair.")
+
+                resposta = str(input(""))
+
+                if resposta == "1":
+                    var = float(input("qual valor? \n"))
+                    var = var + float(valor[z][4])
+                    valor[z][4] = str(var)
+                    continuação(valor,z)
+
+                elif resposta == "2":
+                    resultado = float(input("Qual o valor do saque? \n"))
+
+                    if resultado <= float(valor[z][4]):
+                        var = float(valor[z][4]) - resultado
+                        valor[z][4] = str(var)
+                        print("Saque realizado. \n")
+                        continuação(valor,z)
+
+                    else:
+                        print("Saldo insuficiente.")
+                        continuação(valor,z)
+
+                elif resposta == "3":
+                   conta = input("digite a conta. \n")
+                   resultado = float(input("quanto voce deseja transferir? \n"))
+
+                   if resultado <= float(valor[z][4]):
+                       var = float(valor[z][4]) - resultado
+                       valor[z][4] = str(var)
+
+                       print("transferencia realizada.")
+                       continuação(valor,z)
+
+                   else:
+                       print("saldo insuficiente.")
+                       continuação(valor,z)
+
+                elif resposta == "4":
+                    Conta.operacoes(valor)
+
+                elif resposta == "5":
+                    exit()
+
+
+            else:
+                decisao = input("Você errou alguma coisa, deseja tentar novamente?\n"
+                                "1 - SIM\n"
+                                "2 - NÃO\n").lower()
+                if decisao == "1" or decisao == "sim":
+                    Conta.operacoes(valor)
+
+                else:
+                    exit()
+
+
+
+def continuação(valor,posicao):
+    print(f"Seu saldo é de {float(valor[posicao][4]):.2f}\n"
+          "Digite 1 para deposito\n"
+          "Digite 2 para saque\n"
+          "Digite 3 para transferencias\n"
+          "Digite 4 para fazer logout\n"
+          "Digite 5 para sair.")
+    resposta = str(input(""))
+
+    if resposta == "1" :
+        var = float(input("qual valor? \n"))
+        var = var + float(valor[posicao][4])
+        valor[posicao][4] = str(var)
+        continuação(valor,posicao)
+
+    elif resposta == "2" :
+        resultado = float(input("Qual o valor do saque? \n"))
+
+        if resultado <= float(valor[posicao][4]) :
+            var = float(valor[posicao][4]) - resultado
+            valor [posicao][4] = str(var)
+            continuação(valor,posicao)
+
+        else :
+            print("Saldo insuficiente.")
+            continuação(valor,posicao)
+
+    elif resposta == "3":
+        conta = str(input("digite a conta. \n"))
+        resultado = float(input("quanto voce deseja transferir? \n"))
+
+        if resultado <= float(valor[posicao][4]):
+            var = float(valor[posicao][4]) - resultado
+            valor[posicao][4] = str(var)
+            continuação(valor,posicao)
+
+        else :
+            print("saldo insuficiente.")
+            continuação(valor,posicao)
+
+    elif resposta == "4":
+        Conta.operacoes(valor)
+
+    elif resposta == "5":
+        exit()
+
+dados = []
+while True:
+    valores = Conta.atributos("")
+    dados.append(valores)
+    resposta = str(input("Deseja criar outra conta?\n"
+                     "1 - SIM\n"
+                     "2 - NÃO\n")).lower()
+    if resposta == "1" or resposta == "sim":
+        pass
+
+    elif resposta == "2" or resposta == "nao" or resposta == "não":
+        break
+Conta.operacoes(dados)
+
+
