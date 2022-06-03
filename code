@@ -4,7 +4,6 @@ class Conta:
         print("Bem vindo ao banco WordsCity\n"
               "vamos criar sua conta neste momento.")
         lista = []
-        lista2 = []
         agencia = "3186"
         conta = randint(100000,999999)
         conta = str(conta)+"-9"
@@ -24,9 +23,8 @@ class Conta:
         agencia = str(input("digite sua agencia.\n"))
         conta = str(input("digite o numero da sua conta.\n"))
         senha = str(input("digite sua senha \n"))
-        result = len(valor)
-        result = result
-        for z in range(result):
+
+        for z in range(len(valor)):
             if agencia == valor[z][0] and conta == valor[z][1] and senha == valor[z][3]:
                 print(f"Login realizado {valor[z][2]}.\n"
                       f"Seu saldo é de {float(valor[z][4]):.2f} \n"
@@ -58,19 +56,27 @@ class Conta:
                         continuação(valor,z)
 
                 elif resposta == "3":
-                   conta = input("digite a conta. \n")
-                   resultado = float(input("quanto voce deseja transferir? \n"))
+                    agencia = str(input("digite a agencia. \n"))
+                    conta = str(input("digite a conta. \n"))
+                    dinheiro = float(input("quanto voce deseja transferir? \n"))
 
-                   if resultado <= float(valor[z][4]):
-                       var = float(valor[z][4]) - resultado
-                       valor[z][4] = str(var)
+                    if dinheiro <= float(valor[z][4]):
+                        for x in range(len(valor)):
 
-                       print("transferencia realizada.")
-                       continuação(valor,z)
+                            if agencia == valor[x][0] and conta == valor[x][1]:
+                                tirar_conta = float(valor[z][4]) - dinheiro
+                                valor[z][4] = str(tirar_conta)
+                                receber_conta = float(valor[x][4]) + dinheiro
+                                valor[x][4] = str(receber_conta)
+                                continuação(valor,z)
 
-                   else:
-                       print("saldo insuficiente.")
-                       continuação(valor,z)
+                            elif z+1 == len(valor):
+                                print("conta nao encontrada.")
+                                continuação(valor, z)
+
+                    elif dinheiro >= float(valor[z][4]):
+                        print("saldo insuficiente.")
+                        continuação(valor, z)
 
                 elif resposta == "4":
                     Conta.operacoes(valor)
@@ -78,8 +84,7 @@ class Conta:
                 elif resposta == "5":
                     exit()
 
-
-            else:
+            elif z+1 == len(valor):
                 decisao = input("Você errou alguma coisa, deseja tentar novamente?\n"
                                 "1 - SIM\n"
                                 "2 - NÃO\n").lower()
@@ -88,7 +93,6 @@ class Conta:
 
                 else:
                     exit()
-
 
 
 def continuação(valor,posicao):
@@ -119,17 +123,26 @@ def continuação(valor,posicao):
             continuação(valor,posicao)
 
     elif resposta == "3":
+        agencia = str(input("digite a agencia. \n"))
         conta = str(input("digite a conta. \n"))
-        resultado = float(input("quanto voce deseja transferir? \n"))
+        dinheiro = float(input("quanto voce deseja transferir? \n"))
 
-        if resultado <= float(valor[posicao][4]):
-            var = float(valor[posicao][4]) - resultado
-            valor[posicao][4] = str(var)
-            continuação(valor,posicao)
+        if dinheiro <= float(valor[posicao][4]):
+            for z in range(len(valor)):
+                if agencia == valor[z][0] and conta == valor[z][1]:
+                    tirar_conta = float(valor[posicao][4]) - dinheiro
+                    valor[posicao][4] = str(tirar_conta)
+                    receber_conta = float(valor[z][4]) + dinheiro
+                    valor[z][4] = str(receber_conta)
+                    continuação(valor, posicao)
 
-        else :
+                elif z + 1 == len(valor):
+                    print("conta nao encontrada.")
+                    continuação(valor, posicao)
+
+        elif dinheiro >= float(valor[posicao][4]):
             print("saldo insuficiente.")
-            continuação(valor,posicao)
+            continuação(valor, posicao)
 
     elif resposta == "4":
         Conta.operacoes(valor)
